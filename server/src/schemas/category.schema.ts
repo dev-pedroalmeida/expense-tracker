@@ -1,6 +1,6 @@
 import * as z from "zod";
 
 export const categorySchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  color: z.string().optional().default("#ff5900"),
+  name: z.string().min(3, { message: "Name must be at least 3 characters long" }),
+  color: z.string().optional(),
 })
