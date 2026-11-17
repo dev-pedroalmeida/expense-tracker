@@ -7,12 +7,27 @@ import {
   formatUpdateQueryData,
 } from "../functions/formatQueryData.ts";
 
-const getAllTransactions = async ( req: Request, res: Response ) => {
-  const transactions = await db.query("SELECT * FROM transactions ORDER BY id")
+const getAllTransactions = async (req: Request, res: Response) => {
+  const transactions = await db.query("SELECT * FROM transactions ORDER BY id");
 
-  return res.status(200).json(transactions.rows)
-}
+  return res.status(200).json(transactions.rows);
+};
 
-export {
-  getAllTransactions
-}
+const createTransaction = async (req: Request, res: Response) => {
+  const validatedData = validateData(transactionSchema, req.body);
+
+  const { fields, values, params } = formatInsertQueryData(validatedData);
+
+  const query =
+    "INSERT INTO transactions (" +
+    fields.join(", ") +
+    ") VALUES (" +
+    values.join(", ") +
+    ") RETURNING *";
+
+  const newTransaction = await db.query(query, [...params]);
+
+  return res.status(201).json(newTransaction.rows);
+};
+
+export { getAllTransactions, createTransaction };

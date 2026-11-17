@@ -4,5 +4,6 @@ import * as transactionController from "../controllers/transaction.controller.ts
 const router = express.Router();
 
 router.get("/", transactionController.getAllTransactions);
+router.post("/", transactionController.createTransaction);
 
 export default router;
