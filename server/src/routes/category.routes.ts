@@ -1,11 +1,11 @@
 import express, { type Request, type Response } from 'express';
-import * as categoriesController from '../controllers/category.controller.ts';
+import * as categoryController from '../controllers/category.controller.ts';
 
 const router = express.Router();
 
-router.get('/', categoriesController.getAllCategories);
-router.post('/', categoriesController.createCategory);
-router.put('/:id', categoriesController.updateCategory);
-router.delete('/:id', categoriesController.deleteCategory);
+router.get('/', categoryController.getAllCategories);
+router.post('/', categoryController.createCategory);
+router.put('/:id', categoryController.updateCategory);
+router.delete('/:id', categoryController.deleteCategory);
 
 export default router;
