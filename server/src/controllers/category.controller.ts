@@ -50,7 +50,7 @@ const updateCategory = async (req: Request<{ id: string }>, res: Response) => {
   const updatedCategory = await db.query(query, [...params, id]);
 
   if (updatedCategory.rows.length === 0) {
-    return res.status(404).json({ message: "Category not found" });
+    return res.status(404).json({ message: "Category not found!" });
   }
 
   return res.status(200).json(updatedCategory.rows);
@@ -59,9 +59,13 @@ const updateCategory = async (req: Request<{ id: string }>, res: Response) => {
 const deleteCategory = async (req: Request<{ id: string }>, res: Response) => {
   const id = req.params.id;
 
-  const query = "DELETE FROM categories WHERE id = $1";
+  const query = "DELETE FROM categories WHERE id = $1 RETURNING *";
 
   const result = await db.query(query, [id]);
+
+  if (result.rowCount === 0) {
+    return res.status(404).json({message: "Category not found!"})
+  }
 
   return res.status(200).json({ message: "Category deleted successfully!" });
 };
