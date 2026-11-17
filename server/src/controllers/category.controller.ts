@@ -34,8 +34,8 @@ const updateCategory = async (req: Request<{ id: string }>, res: Response) => {
   const id = req.params.id;
   const validatedData = validateData(categorySchema.partial(), req.body);
 
-  if (validatedData === undefined) {
-    return res.status(400).json({ message: "No data received" });
+  if (Object.keys(validatedData).length === 0) {
+    return res.status(400).json({ message: "No data received to update!" });
   }
 
   const { fields, params } = formatUpdateQueryData(validatedData);
@@ -55,4 +55,14 @@ const updateCategory = async (req: Request<{ id: string }>, res: Response) => {
 
   return res.status(200).json(updatedCategory.rows);
 };
-export { getAllCategories, createCategory, updateCategory };
+
+const deleteCategory = async (req: Request<{ id: string }>, res: Response) => {
+  const id = req.params.id;
+
+  const query = "DELETE FROM categories WHERE id = $1";
+
+  const result = await db.query(query, [id]);
+
+  return res.status(200).json({ message: "Category deleted successfully!" });
+};
+export { getAllCategories, createCategory, updateCategory, deleteCategory };
