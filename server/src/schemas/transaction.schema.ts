@@ -4,5 +4,6 @@ export const transactionSchema = z.object({
   type: z.enum(["expense", "income"]),
   amount: z.int(),
   description: z.string().max(255).optional(),
-  date: z.iso.date().optional()
+  date: z.iso.date().optional(),
+  category_id: z.int().optional()
 })
